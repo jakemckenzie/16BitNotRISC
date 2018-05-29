@@ -25,7 +25,7 @@ module Multiplexer_testbench();
         for (integer j = 0; j < 2**SELECT_WIDTH; j++) begin
             data_in[j] = j;
         end
-        for (integer i = 0; i < WIDTH; i++) begin
+        for (integer i = 0; i < 2 **SELECT_WIDTH; i++) begin
             index = i;#1000;
         end
     end
