@@ -12,27 +12,21 @@ endmodule
 
 module Multiplexer_testbench();
     
-    parameter WIDTH = 5, SELECT_WIDTH = 2;
+    parameter WIDTH = 8, SELECT_WIDTH = 5;
     
     logic [WIDTH - 1 : 0]data_in[2**SELECT_WIDTH];
-    logic [SELECT_WIDTH - 1 : 0]index
+    logic [SELECT_WIDTH - 1 : 0]index;
     logic [WIDTH - 1 : 0]data_out;
 
     Multiplexer #(WIDTH, SELECT_WIDTH) DUT(data_in, index, data_out);
     
     initial begin
     
-        #1000;
-    
         for (integer j = 0; j < 2**SELECT_WIDTH; j++) begin
             data_in[j] = j;
         end
-    
-        #1000;
-    
         for (integer i = 0; i < WIDTH; i++) begin
             index = i;#1000;
         end
-    
     end
 endmodule
