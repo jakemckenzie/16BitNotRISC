@@ -2,10 +2,12 @@
  * Date:		    Jun 6, 2018
  * Description:     Generalized multiplexer.
  */
-module Multiplexer#(parameter WIDTH, SELECT_WIDTH)
-                    (input logic [WIDTH - 1 : 0]data_in[2**SELECT_WIDTH],
-                     input logic [SELECT_WIDTH - 1 : 0]index,
-                    output logic [WIDTH - 1 : 0]data_out);
+module Multiplexer
+    #(parameter WIDTH, SELECT_WIDTH)
+    (input logic [WIDTH - 1 : 0]data_in[2**SELECT_WIDTH],
+    input logic [SELECT_WIDTH - 1 : 0]index,
+    output logic [WIDTH - 1 : 0]data_out
+);
         
         assign data_out = data_in[index];
 
