@@ -35,28 +35,12 @@ module ALU #(parameter WIDTH)(
 		bs_right <=1'b0;
 		
 		case(OpCode)
-		`A_ADD: begin // add
-			{Cout,Q} <= A + B;
-			end
-		`A_SUB: begin // sub
-			Q <= A - B;
-			end
-		
-		`A_AND: begin // and
-			Q <= A & B;
-			end
-		
-		`A_OR: begin // or
-			Q <= A | B;
-			end
-		
-		`A_XOR: begin // xor
-			Q <= A ^ B;
-			end
-		
-		`A_NAND: begin // nand
-				Q <= ~(A & B);
-			end
+		`A_ADD : {Cout,Q} <=   A + B ;
+		`A_SUB : Q        <=   A - B ;
+		`A_AND : Q        <=   A & B ;
+		`A_OR  : Q        <=   A | B ;
+		`A_XOR : Q        <=   A ^ B ;
+		`A_NAND: Q        <= ~(A & B);
 		
 		`A_SHL: begin // shl
 			Q <= A<<shift;
@@ -69,7 +53,7 @@ module ALU #(parameter WIDTH)(
 			end
 		
 		
-//		4'b0111: ;// shrs
+//		`A_SHRS ;// shrs
 		`A_ROL: begin // rol
 				bs_right <= 1'b0;
 				Q <= bs_out;
