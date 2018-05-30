@@ -1,5 +1,3 @@
-
-
 # no point in tracking Quartus & modsim output
 **/db
 **/output_files
