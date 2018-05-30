@@ -5,7 +5,6 @@
  *                  TODO: MAKE TEST BENCH
  */
 
-`include "instructions.vh"
 
 module Control_Unit(
     IR,Clock,OpCode,
@@ -53,11 +52,11 @@ module Control_Unit(
                 CU_SHR      = 5'hD,     //configures the ALU for shift right
                 CU_ROL      = 5'hF,     //configures the ALU for rotate left
                 CU_ROR      = 5'h10,    //configures the ALU for rotate right
-                CU_BEQ      = 5'h11,    //configures the ALU for "branch if equal"
-                CU_BNE      = 5'h12,    //configures the ALU for "branch if not-equal"
-                CU_BLT      = 5'h13,    //configures the ALU for "branch if greater than"
-                CU_BGE      = 5'h14,    //configures the ALU for "branch if less than"
-                CU_JAL      = 5'h15,    //configures the ALU for "branch if less than"
+                // CU_BEQ      = 5'h11,    //configures the ALU for "branch if equal"
+                // CU_BNE      = 5'h12,    //configures the ALU for "branch if not-equal"
+                // CU_BLT      = 5'h13,    //configures the ALU for "branch if greater than"
+                // CU_BGE      = 5'h14,    //configures the ALU for "branch if less than"
+                // CU_JAL      = 5'h15,    //configures the ALU for "branch if less than"
                 CU_HALT     = 5'h16,    //puts the CPU into a sleep mode
                 CU_NOOP     = 5'h17;    //Stall for one cycle and then goes again
 
@@ -190,46 +189,46 @@ always_ff @(posedge Clock) begin
                 ALU_S <= 4'hA;
                 RF_S <= 1'h0;
             end
-            CU_BEQ: begin
-                RF_A_ADDR <= IR[11:8];
-                RF_B_ADDR <= IR[7:4];
-                RF_W_ADDR <= IR[3:0];
-                RF_W_EN <= 1'h1;
-                ALU_S <= 4'hB;
-                RF_S <= 1'h0;
-            end
-            CU_BNE: begin
-                RF_A_ADDR <= IR[11:8];
-                RF_B_ADDR <= IR[7:4];
-                RF_W_ADDR <= IR[3:0];
-                RF_W_EN <= 1'h1;
-                ALU_S <= 4'hC;
-                RF_S <= 1'h0;
-            end
-            CU_BLT: begin
-                RF_A_ADDR <= IR[11:8];
-                RF_B_ADDR <= IR[7:4];
-                RF_W_ADDR <= IR[3:0];
-                RF_W_EN <= 1'h1;
-                ALU_S <= 4'hD;
-                RF_S <= 1'h0;
-            end
-            CU_BGE: begin
-                RF_A_ADDR <= IR[11:8];
-                RF_B_ADDR <= IR[7:4];
-                RF_W_ADDR <= IR[3:0];
-                RF_W_EN <= 1'h1;
-                ALU_S <= 4'hE;
-                RF_S <= 1'h0;
-            end
-            CU_JAL: begin
-                RF_A_ADDR <= IR[11:8];
-                RF_B_ADDR <= IR[7:4];
-                RF_W_ADDR <= IR[3:0];
-                RF_W_EN <= 1'h1;
-                ALU_S <= 4'hF;
-                RF_S <= 1'h0;
-            end
+            // CU_BEQ: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hB;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_BNE: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hC;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_BLT: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hD;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_BGE: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hE;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_JAL: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hF;
+            //     RF_S <= 1'h0;
+            // end
             CU_NOOP: CurrentState <= CU_INIT;
             CU_HALT: CurrentState <= CU_HALT;
     end else CurrentState <= CU_INIT;
