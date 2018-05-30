@@ -4,12 +4,19 @@
  *                  that instruction using the datapath.
  *                  TODO: MAKE TEST BENCH
  */
+
+`include "instructions.vh"
+
 module Control_Unit(
+    IR,Clock,OpCode,
     PC_CLR,PR_ID,PC_IC,
     D_ADDR,D_WR,
     RF_S,RF_RA_ADDR,RB_ADDR,RF_W_EN,RF_W_ADDR,
     ALU_S
 );
+    input logic [15:0]IR;
+    input logic Clock;
+    input logic Reset;
 
     output logic PC_CLR;        //Program counter (PC) clear command
     output logic PR_ID;         //PC register load command
@@ -24,23 +31,38 @@ module Control_Unit(
     output logic [3:0]RF_B_ADDR //Register file B-side read address
     output logic [3:0]RF_W_ADDR;//Register file write address 
 
-    output logic [2:0]ALU_S;    //ALU function select 
+    output logic [3:0]ALU_S;    //ALU function select
+    
+    assign [3:0]CurrentState = CU_INIT;
 
 /********************************* OUR INTIAL STATES *********************************/
 
-    localparam  CU_INIT     = 3'h0,//set program counter to zero, and intialize variables
-                CU_FETCH    = 3'h1,//grabs next instruction from memory address that is stored
-                CU_DECODE   = 3'h2,//parses the first 4 bits of the messages
-                CU_LOAD_A   = 3'h3,//loads into the first register in the ALU
-                CU_LOAD_B   = 3'h4,//loads into the second register in the ALU
-                CU_STORE    = 3'h5,//stores registers into specified locations in memory
-                CU_ADD      = 3'h6,//configures the ALU for addition
-                CU_SUBTRACT = 3'h7,//configures the ALU for subtraction
-                CU_HALT     = 3'h8;//puts the CPU into a sleep mode
+    localparam  CU_INIT     = 4'h0,//set program counter to zero, and intialize variables
+                CU_FETCH    = 4'h1,//grabs next instruction from memory address that is stored
+                CU_DECODE   = 4'h2,//parses the first 4 bits of the messages
+                CU_LOAD_A   = 4'h3,//loads into the first register in the ALU
+                CU_LOAD_B   = 4'h4,//loads into the second register in the ALU
+                CU_STORE    = 4'h5,//stores registers into specified locations in memory
+                CU_ADD      = 4'h6,//configures the ALU for addition
+                CU_SUB      = 4'h7,//configures the ALU for subtraction
+                CU_HALT     = 4'h8;//puts the CPU into a sleep mode
+                CU_NOOP     = 4'h9;//Stall for one cycle and then goes again
 
 /**************************************************************************************/
 
 always_ff @(posedge Clock) begin
+    //Initialize all outputs to zero
+    PC_CLR <= 1'h0;
+    PR_ID <= 1'h0;
+    PC_IC <= 1'h0;
+    D_ADDR <= 8'h0;
+    D_WR <= 1'h0;
+    RF_S <= 1'h0;
+    RF_W_EN <= 1'h0;
+    RF_A_ADDR <= 4'h0;
+    RF_B_ADDR <= 4'h0;
+    RF_W_ADDR <= 4'h0;
+    ALU_S <= 3'h0;
     if (Reset) begin
         case(CurrentState) 
             CU_INIT: begin
@@ -51,6 +73,13 @@ always_ff @(posedge Clock) begin
             end
             CU_DECODE: begin
                 PC_IC <= 1'h1;
+                case(IR[15:12]) 
+                    `P_NOOP: CurrentState <= CU_NOOP;
+                    `P_STORE: CurrentState <= CU_STORE;
+                    `P_LOAD: CurrentState <= CU_LOAD;
+                    `P_ADD: CurrentState <= CU_ADD;
+                    `P_SUB: CurrentState <= CU_SUB;
+                    `P_HALT: CurrentState <= CU_HALT;
             end
             CU_LOAD_A: begin
                 D_ADDR <= IR[11:4];
@@ -83,7 +112,8 @@ always_ff @(posedge Clock) begin
                 ALU_S <= 3'h2;
                 RF_S <= 1'h0;
             end
-            CU_HALT: CurrentState <= CU_INIT;
+            CU_NOOP: CurrentState <= CU_INIT;
+            CU_HALT: CurrentState <= CU_HALT;
     end else CurrentState <= CU_INIT;
 end                
 
