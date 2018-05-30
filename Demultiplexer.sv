@@ -11,6 +11,7 @@ module Demultiplexer#(parameter WIDTH,
             for (genvar i = 0; i < (2**SELECT_WIDTH); i++) begin:forloop
                 assign data_out[i] = (index == i) ? data_in : '0;
             end
+            
         endgenerate
 endmodule
 
