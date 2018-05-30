@@ -1,3 +1,9 @@
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Generalized multiplexer.
+ */
+
+
 module #(WIDTH, SELECT_WIDTH) Register_file(
 	input clk, write,
 	input [SELECT_WIDTH-1:0] Waddr, Aaddr, Baddr,

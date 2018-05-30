@@ -1,3 +1,8 @@
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Generalized multiplexer.
+ */
+
 
 `include "instructions.vh"
 

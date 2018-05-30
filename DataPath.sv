@@ -1,3 +1,7 @@
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Generalized multiplexer.
+ */
 
 
 
@@ -8,10 +12,12 @@ module #(parameter WIDTH, D_ADDR_WIDTH) DataPath(
 	input[3:0] RF_W_addr, RF_Ra_addr, RF_Rb_addr,
 	input[3:0] ALU_sel
 );
+	logic[WIDTH-1:0] A, B, RF_W, ALU_Q;
 	
+	// Data Memory
 	[WIDTH-1:0] DataMem[2**D_ADDR_WIDTH-1:0];
 	
-	logic[WIDTH-1:0] memIn, memOut, A, B, RF_W, ALU_Q;
+	
 	
 	always_ff @(posedge clk) D_wr? DataMem[D_addr] = A;
 	
