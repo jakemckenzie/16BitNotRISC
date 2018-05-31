@@ -21,7 +21,7 @@ module Control_Unit_testbench();
     Control_Unit DUT(IR,Clock,Reset,
     PC_CLR,PR_ID,PC_IC,
     D_ADDR,D_WR,
-    RF_S,RF_W_EN,RF_A_ADDR,RF_B_ADDR,RF_W_ADDR,
+    RF_S,RF_A_ADDR,RF_B_ADDR,RF_W_EN,RF_W_ADDR,
     ALU_S);
 
     always begin
