@@ -4,7 +4,10 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	
 	output[D_ADDR_W-1:0] D_addr,
 	output[R_ADDR_W-1:0] RF_W_addr, RF_A_addr, RF_B_addr,
-	output[3:0] ALU_sel
+	output[3:0] ALU_sel,
+	
+	output[WIDTH-1:0] IR_Out,
+	output[I_ADDR_W-1:0] PC_Out
 );
 	logic[WIDTH-1:0] currentInst, instMemOut;
 	logic ir_ld, ip_clr, ip_inc;
@@ -34,5 +37,8 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 		.RF_A_ADDR(RF_A_addr), .RF_B_ADDR(RF_B_addr), .RF_W_ADDR(RF_W_addr),
 		.ALU_S(ALU_sel)
 	);
+	
+	assign IR_Out = ir;
+	assign PC_Out = ip;
 	
 endmodule

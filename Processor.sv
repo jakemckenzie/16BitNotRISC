@@ -22,26 +22,28 @@ module Processor(
 	
 	
 	Controller #(WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) controller(
-		.clk(clk), .reset(Reset),
+		.clk(Clk), .reset(Reset),
 		.D_wr(D_wr), .RF_s(RF_s), .RF_W_en(RF_W_en),
 		.D_addr(D_addr),
 		.RF_W_addr(RF_W_addr), .RF_A_addr(RF_A_addr), .RF_B_addr(RF_B_addr),
-		.ALU_sel(ALU_sel)
+		.ALU_sel(ALU_sel),
+		.IR_Out(IR_Out), .PC_Out(PC_Out)
 	);
 	
 	DataPath #(WIDTH, D_ADDR_W, R_ADDR_W) datapath(
 		.D_addr(D_addr),
 		.D_wr(D_wr), .RF_s(RF_s), .RF_W_en(RF_W_en), .clk(Clk),
 		.RF_W_addr(RF_W_addr), .RF_A_addr(RF_B_addr), .RF_B_addr(RF_B_addr),
-		.ALU_sel(ALU_sel)
+		.ALU_sel(ALU_sel),
+		.ALU_A(ALU_A), .ALU_B(ALU_B), .ALU_Out(ALU_Out)
 	);
 	
 	// debugging output
-	assign IR_Out    = controller.ir;
-	assign PC_Out    = controller.ip;
-	assign State     = controller.c.CurrentState;
+//	assign IR_Out    = controller.ir;
+//	assign PC_Out    = controller.ip;
+	assign State     = 0;
 	assign NextState = 0;
-	assign ALU_A     = datapath.A;
-	assign ALU_B     = datapath.B;
-	assign ALU_Out   = datapath.muxIn[0];
+//	assign ALU_A     = datapath.A;
+//	assign ALU_B     = datapath.B;
+//	assign ALU_Out   = datapath.muxIn[0];
 endmodule

@@ -9,7 +9,8 @@ module DataPath #(parameter WIDTH, D_ADDR_W, R_ADDR_W) (
 	input[D_ADDR_W-1:0] D_addr,
 	input[R_ADDR_W-1:0] RF_W_addr, RF_A_addr, RF_B_addr,
 	input      D_wr, RF_s, RF_W_en, clk,
-	input[3:0] ALU_sel
+	input[3:0] ALU_sel,
+	output[WIDTH-1:0] ALU_A, ALU_B, ALU_Out
 );
 	logic[WIDTH-1:0] A, B, RF_W;
 	logic[WIDTH-1:0]muxIn[1:0];
@@ -30,6 +31,10 @@ module DataPath #(parameter WIDTH, D_ADDR_W, R_ADDR_W) (
 		.OpCode(ALU_sel), .A(A), .B(B), .Q(muxIn[0]), 
 		.Cout(), .Oflow(), .Err(), .Eq()
 	);
+	
+	assign ALU_A   = A;
+	assign ALU_B   = B;
+	assign ALU_Out = muxIn[0];
 	
 endmodule
 
