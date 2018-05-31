@@ -9,7 +9,7 @@
 `include "instructions.vh"
 module Control_Unit(
     IR,Clock,Reset,
-    PC_CLR,PR_ID,PC_IC,
+    PC_CLR,PC_IC, IR_LD,
     D_ADDR,D_WR,
     RF_S,RF_A_ADDR,RF_B_ADDR,RF_W_EN,RF_W_ADDR,
     ALU_S
@@ -19,8 +19,9 @@ module Control_Unit(
     input logic Reset;
 
     output logic PC_CLR;        //Program counter (PC) clear command
-    output logic PR_ID;         //PC register load command
     output logic PC_IC;         //PC increment command
+    
+    output logic IR_LD;         //Instruction Register (IR) load command
     
     output logic [7:0]D_ADDR;   //Data memory address 
     output logic D_WR;          //Data memory write enable
@@ -58,7 +59,7 @@ always_ff @(posedge Clock) begin
     CurrentState[4:0]   <= CU_INIT;
 
     PC_CLR              <= 1'h0;
-    PR_ID               <= 1'h0;
+    IR_LD               <= 1'h0;
     PC_IC               <= 1'h0;
     D_ADDR              <= 8'h0;
     D_WR                <= 1'h0;
@@ -75,7 +76,7 @@ always_ff @(posedge Clock) begin
                 CurrentState    <= CU_FETCH;
             end
             CU_FETCH: begin
-                PR_ID           <= 1'h1;
+                IR_LD           <= 1'h1;
                 PC_UPDATE       <= 1'h1;
                 CurrentState    <= CU_DECODE;
             end
