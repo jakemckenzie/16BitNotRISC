@@ -34,7 +34,7 @@
 `define P_ADD   4'b0011
 `define P_SUB   4'b0100
 `define P_HALT  4'b0101
-`define P_JMP   4'b0101
+//`define P_JMP   4'b0101
 
 `endif
 
