@@ -5,7 +5,6 @@
  *                  TODO: MAKE TEST BENCH
  */
 
-`include "instructions.vh"
 
 module Control_Unit(
     IR,Clock,OpCode,
@@ -33,23 +32,37 @@ module Control_Unit(
 
     output logic [3:0]ALU_S;    //ALU function select
     
-    assign [3:0]CurrentState = CU_INIT;
+    assign [4:0]CurrentState = CU_INIT;
 
 /********************************* OUR INTIAL STATES *********************************/
 
-    localparam  CU_INIT     = 4'h0,//set program counter to zero, and intialize variables
-                CU_FETCH    = 4'h1,//grabs next instruction from memory address that is stored
-                CU_DECODE   = 4'h2,//parses the first 4 bits of the messages
-                CU_LOAD_A   = 4'h3,//loads into the first register in the ALU
-                CU_LOAD_B   = 4'h4,//loads into the second register in the ALU
-                CU_STORE    = 4'h5,//stores registers into specified locations in memory
-                CU_ADD      = 4'h6,//configures the ALU for addition
-                CU_SUB      = 4'h7,//configures the ALU for subtraction
-                CU_HALT     = 4'h8;//puts the CPU into a sleep mode
-                CU_NOOP     = 4'h9;//Stall for one cycle and then goes again
+    localparam  CU_INIT     = 5'h0,     //set program counter to zero, and intialize variables
+                CU_FETCH    = 5'h1,     //grabs next instruction from memory address that is stored
+                CU_DECODE   = 5'h2,     //parses the first 4 bits of the messages
+                CU_LOAD_A   = 5'h3,     //loads into the first register in the ALU
+                CU_LOAD_B   = 5'h4,     //loads into the second register in the ALU
+                CU_STORE    = 5'h5,     //stores registers into specified locations in memory
+                CU_ADD      = 5'h6,     //configures the ALU for addition
+                CU_SUB      = 5'h7,     //configures the ALU for subtraction
+                CU_AND      = 5'h8,     //configures the ALU for and
+                CU_OR       = 5'h9,     //configures the ALU for or
+                CU_XOR      = 5'hA,     //configures the ALU for xor
+                CU_NAND     = 5'hB,     //configures the ALU for nand
+                CU_SHL      = 5'hC,     //configures the ALU for shift left
+                CU_SHR      = 5'hD,     //configures the ALU for shift right
+                CU_ROL      = 5'hF,     //configures the ALU for rotate left
+                CU_ROR      = 5'h10,    //configures the ALU for rotate right
+                // CU_BEQ      = 5'h11,    //configures the ALU for "branch if equal"
+                // CU_BNE      = 5'h12,    //configures the ALU for "branch if not-equal"
+                // CU_BLT      = 5'h13,    //configures the ALU for "branch if greater than"
+                // CU_BGE      = 5'h14,    //configures the ALU for "branch if less than"
+                // CU_JAL      = 5'h15,    //configures the ALU for "branch if less than"
+                CU_HALT     = 5'h16,    //puts the CPU into a sleep mode
+                CU_NOOP     = 5'h17;    //Stall for one cycle and then goes again
 
 /**************************************************************************************/
 
+//***CONFUSION: ASK AMMON WHAT HE THINKS ABOUT JUMP INSTRUCTION: 
 always_ff @(posedge Clock) begin
     //Initialize all outputs to zero
     PC_CLR <= 1'h0;
@@ -97,21 +110,125 @@ always_ff @(posedge Clock) begin
                 RF_W_EN <= 1'h1;
             end
             CU_ADD: begin
-                RF_A_ADDR <= [11:8]IR;
-                RF_B_ADDR <= [7:4]IR;
-                RF_W_ADDR <= [3:0]IR;
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
                 RF_W_EN <= 1'h1;
-                ALU_S <= 3'h1;
+                ALU_S <= 4'h1;
                 RF_S <= 1'h0;
             end
             CU_SUBTRACT: begin
-                RF_A_ADDR <= [11:8]IR;
-                RF_B_ADDR <= [7:4]IR;
-                RF_W_ADDR <= [3:0]IR;
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
                 RF_W_EN <= 1'h1;
-                ALU_S <= 3'h2;
+                ALU_S <= 4'h2;
                 RF_S <= 1'h0;
             end
+            CU_AND: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h3;
+                RF_S <= 1'h0;
+            end
+            CU_OR: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h4;
+                RF_S <= 1'h0;
+            end
+            CU_XOR: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h5;
+                RF_S <= 1'h0;
+            end
+            CU_NAND: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h6;
+                RF_S <= 1'h0;
+            end
+            CU_SHL: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h7;
+                RF_S <= 1'h0;
+            end
+            CU_SHR: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h8;
+                RF_S <= 1'h0;
+            end
+            CU_ROL: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'h9;
+                RF_S <= 1'h0;
+            end
+            CU_ROR: begin
+                RF_A_ADDR <= IR[11:8];
+                RF_B_ADDR <= IR[7:4];
+                RF_W_ADDR <= IR[3:0];
+                RF_W_EN <= 1'h1;
+                ALU_S <= 4'hA;
+                RF_S <= 1'h0;
+            end
+            // CU_BEQ: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hB;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_BNE: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hC;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_BLT: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hD;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_BGE: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hE;
+            //     RF_S <= 1'h0;
+            // end
+            // CU_JAL: begin
+            //     RF_A_ADDR <= IR[11:8];
+            //     RF_B_ADDR <= IR[7:4];
+            //     RF_W_ADDR <= IR[3:0];
+            //     RF_W_EN <= 1'h1;
+            //     ALU_S <= 4'hF;
+            //     RF_S <= 1'h0;
+            // end
             CU_NOOP: CurrentState <= CU_INIT;
             CU_HALT: CurrentState <= CU_HALT;
     end else CurrentState <= CU_INIT;
