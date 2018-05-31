@@ -34,10 +34,10 @@ module Control_Unit(
 
     output logic [3:0]ALU_S;    //ALU function select
 
-    logic PC_UPDATE;
+    //logic PC_UPDATE;
     logic [4:0]CurrentState;
 
-/********************************* OUR INTIAL STATES *********************************/
+/***************************** OUR INTIAL STATES ******************************/
 
     localparam  CU_INIT     = 5'h0,     //set program counter to zero, and intialize variables
                 CU_FETCH    = 5'h1,     //grabs next instruction from memory address that is stored
@@ -47,16 +47,16 @@ module Control_Unit(
                 CU_STORE    = 5'h5,     //stores registers into specified locations in memory
                 CU_ADD      = 5'h6,     //configures the ALU for addition
                 CU_SUB      = 5'h7,     //configures the ALU for subtraction
-                CU_JMP      = 5'h8,     //configures the ALU for jump
+            //    CU_JMP      = 5'h8,     //configures the ALU for jump
                 CU_HALT     = 5'h9,     //puts the CPU into a sleep mode
                 CU_NOOP     = 5'hA;     //Stall for one cycle and then goes again
 
-/**************************************************************************************/
+/******************************************************************************/
 
 
 always_ff @(posedge Clock) begin
     //Initialize all outputs to zero
-    CurrentState[4:0]   <= CU_INIT;
+    //CurrentState[4:0]   <= CU_INIT;
 
     PC_CLR              <= 1'h0;
     IR_LD               <= 1'h0;
@@ -70,14 +70,14 @@ always_ff @(posedge Clock) begin
     RF_W_ADDR           <= 4'h0;
     ALU_S               <= 3'h0;
     if (Reset) begin
-        case(CurrentState) 
+        case(CurrentState)
             CU_INIT: begin
                 PC_CLR          <= 1'h1;
                 CurrentState    <= CU_FETCH;
             end
             CU_FETCH: begin
                 IR_LD           <= 1'h1;
-                PC_UPDATE       <= 1'h1;
+                PC_IC           <= 1'h1;
                 CurrentState    <= CU_DECODE;
             end
             CU_DECODE: begin
@@ -89,7 +89,7 @@ always_ff @(posedge Clock) begin
                     `P_ADD:     CurrentState <= CU_ADD;
                     `P_SUB:     CurrentState <= CU_SUB;
                     `P_HALT:    CurrentState <= CU_HALT;
-                    `P_JMP:     CurrentState <= CU_JMP;
+               //     `P_JMP:     CurrentState <= CU_JMP;
                     default:    CurrentState <= CU_INIT;
                 endcase
             end
@@ -130,14 +130,14 @@ always_ff @(posedge Clock) begin
                 RF_S            <= 1'h0;
                 CurrentState    <= CU_FETCH;
             end
-            CU_JMP: begin
-                RF_A_ADDR       <= IR[11:8];
-                RF_B_ADDR       <= IR[7:4];
-                RF_W_ADDR       <= IR[3:0];
-                RF_W_EN         <= 1'h1;
-                ALU_S           <= 4'h3;
-                RF_S            <= 1'h0;
-            end
+//            CU_JMP: begin
+//                RF_A_ADDR       <= IR[11:8];
+//                RF_B_ADDR       <= IR[7:4];
+//                RF_W_ADDR       <= IR[3:0];
+//                RF_W_EN         <= 1'h1;
+//                ALU_S           <= 4'h3;
+//                RF_S            <= 1'h0;
+//            end
             // CU_AND: begin
             //     RF_A_ADDR <= IR[11:8];
             //     RF_B_ADDR <= IR[7:4];
@@ -243,7 +243,7 @@ always_ff @(posedge Clock) begin
             //     ALU_S <= 4'hE;
             //     RF_S <= 1'h0;
             // end
-            CU_NOOP: CurrentState <= CU_INIT;
+            CU_NOOP: CurrentState <= CU_FETCH;
             CU_HALT: CurrentState <= CU_HALT;
             default: CurrentState <= CU_INIT;
         endcase
