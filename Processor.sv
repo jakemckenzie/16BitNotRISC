@@ -33,7 +33,7 @@ module Processor(
 	DataPath #(WIDTH, D_ADDR_W, R_ADDR_W) datapath(
 		.D_addr(D_addr),
 		.D_wr(D_wr), .RF_s(RF_s), .RF_W_en(RF_W_en), .clk(Clk),
-		.RF_W_addr(RF_W_addr), .RF_A_addr(RF_B_addr), .RF_B_addr(RF_B_addr),
+		.RF_W_addr(RF_W_addr), .RF_A_addr(RF_A_addr), .RF_B_addr(RF_B_addr),
 		.ALU_sel(ALU_sel),
 		.ALU_A(ALU_A), .ALU_B(ALU_B), .ALU_Out(ALU_Out)
 	);

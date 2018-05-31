@@ -10,7 +10,9 @@ module LabB(
 	
 	logic buttonLink, procClock;
 	ButtonSync BS(CLOCK_50, KEY[2], buttonLink);
-	KeyFilter Filter(.Clock(CLOCK_50), .In(buttonLink), .Out(procClock), .Strobe());
+	KeyFilter Filter(
+		.Clock(CLOCK_50), .In(buttonLink), .Out(procClock), .Strobe()
+	);
 	
 	logic[WIDTH-1:0] IR_Out, ALU_A, ALU_B, ALU_Out;
 	logic[7:0]  PC_Out, State, NextState;

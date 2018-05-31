@@ -66,7 +66,7 @@ module ALU #(parameter WIDTH)(
 	
 	
 	always_comb begin
-		codeErr <=1'b0;
+		codeErr =1'b0;
 		Cout = 0;
 		
 		case(OpCode)
@@ -83,8 +83,8 @@ module ALU #(parameter WIDTH)(
 		
 		default: begin
 			$display("ALU: bad code");
-			codeErr <= 1'b1;
-			Q <= 0;
+			codeErr = 1'b1;
+			Q = 0;
 			end
 		endcase
 	end
