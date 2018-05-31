@@ -2,7 +2,6 @@
  * Date:		    Jun 6, 2018
  * Description:     reads each instruction from instruction memory, and executes
  *                  that instruction using the datapath.
- *                  TODO: MAKE TEST BENCH
  cd Users/Epimetheus/Documents/GitHub/16BitRISC
  */
 
@@ -69,8 +68,8 @@ always_ff @(posedge Clock) begin
     RF_B_ADDR           <= 4'h0;
     RF_W_ADDR           <= 4'h0;
     ALU_S               <= 3'h0;
-    if (Reset) begin
-        case(CurrentState)
+    if (!Reset) begin
+        case(CurrentState) 
             CU_INIT: begin
                 PC_CLR          <= 1'h1;
                 CurrentState    <= CU_FETCH;
@@ -109,7 +108,7 @@ always_ff @(posedge Clock) begin
             CU_STORE: begin
                 D_ADDR          <= IR[7:0];
                 D_WR            <= 1'h1;
-                RF_A_ADDR <= IR[11:8];
+                RF_A_ADDR       <= IR[11:8];
                 CurrentState    <= CU_FETCH;
             end
             CU_ADD: begin
