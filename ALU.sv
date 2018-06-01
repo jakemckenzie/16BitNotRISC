@@ -34,11 +34,11 @@ module ALU #(parameter WIDTH)(
 	assign shift = B[MAX_SEL:0];
 	
 	always_comb case(OpCode) // shiftErr
-		`A_SHL : if(B >= WIDTH) shiftErr = 1'b1; else shiftErr = 1'b0;
-		`A_SHR : if(B >= WIDTH) shiftErr = 1'b1; else shiftErr = 1'b0;
-		`A_ROR : if(B >= WIDTH) shiftErr = 1'b1; else shiftErr = 1'b0;
-		`A_ROL : if(B >= WIDTH) shiftErr = 1'b1; else shiftErr = 1'b0;
-		default:                shiftErr = 1'b0;
+		`A_SHL : shiftErr = (B >= WIDTH) ? 1'b1 : 1'b0;
+		`A_SHR : shiftErr = (B >= WIDTH) ? 1'b1 : 1'b0;
+		`A_ROR : shiftErr = (B >= WIDTH) ? 1'b1 : 1'b0;
+		`A_ROL : shiftErr = (B >= WIDTH) ? 1'b1 : 1'b0;
+		default: shiftErr = 1'b0;
 	endcase
 	
 	always_comb case(OpCode) // bs_right
