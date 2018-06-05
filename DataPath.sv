@@ -2,9 +2,6 @@
  * Date:		    Jun 6, 2018
  * Description:     Data path module
  */
-
-
-
 module DataPath #(parameter WIDTH, D_ADDR_W, R_ADDR_W) (
 	input[D_ADDR_W-1:0] D_addr,
 	input[R_ADDR_W-1:0] RF_W_addr, RF_A_addr, RF_B_addr,

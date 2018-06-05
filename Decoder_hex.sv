@@ -1,6 +1,7 @@
-
-
-
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Data path module
+ */
 
 module Decoder_hex(input [3:0] num, output [6:0] hex);
 	always @(num) case(num)

@@ -2,8 +2,6 @@
  * Date:		    Jun 6, 2018
  * Description:     Data memory module
  */
-
-
 module Mem #(parameter WIDTH, D_ADDR_WIDTH) (
 	input  clk, write,
 	input  [D_ADDR_WIDTH-1:0] addr,

@@ -1,3 +1,8 @@
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Driver module
+ */
+
 module LabB(
 	input CLOCK_50, KEY[3:0], SW[17:0],
 	output LEDG[3:0], LEDR[17:0],
