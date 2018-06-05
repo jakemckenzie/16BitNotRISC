@@ -5,6 +5,7 @@
 **/incremental_db
 **/greybox_tmp
 **/gate_work
+**/simulation
 
 *.wlf
 *.rpt
