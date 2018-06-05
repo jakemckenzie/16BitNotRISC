@@ -28,7 +28,6 @@ module Control_Unit_testbench();
         Clock = 1'b0;       #10;
         Clock = !Clock;     #10;
     end
-
     initial begin
         $display("IR       |   State  |  PC_CLR  |   PR_ID  |   PC_IC  |  D_ADDR  |   D_WR   |   RF_S   |  RF_W_EN | RF_A_ADDR| RF_B_ADDR| RF_W_ADDR|   ALU_S  ");
         Reset = 1; #100;
@@ -41,10 +40,8 @@ module Control_Unit_testbench();
         #100;
         for (integer j = 0; j < 7; j++) begin 
             IR[15:12] <= j;#100;
+            $monitor("%h            %h         %b         %b         %b         %h         %b         %b         %b          %h        %h         %h        %h",IR,DUT.CurrentState,PC_CLR, PR_ID,PC_IC,D_ADDR,D_WR,RF_S,RF_W_EN,RF_A_ADDR,RF_B_ADDR, RF_W_ADDR,ALU_S);
         end
-        $monitor("%h            %h         %b         %b         %b         %h         %b         %b         %b          %h        %h         %h        %h",
-        IR,     DUT.CurrentState,PC_CLR, PR_ID,      PC_IC,     D_ADDR,     D_WR,      RF_S,     RF_W_EN,   RF_A_ADDR,RF_B_ADDR, RF_W_ADDR,  ALU_S);
-        
         $stop;
     end
     
