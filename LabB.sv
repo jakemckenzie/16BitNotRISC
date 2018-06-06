@@ -6,14 +6,11 @@ module LabB(
 	localparam WIDTH =16;
 	
 	assign LEDR = SW;
-//	assign LEDG = ~KEY;
-	//not[3:0] (KEY, LEDG);
 	
 	genvar i;
 	generate for(i=0; i<4; i++) begin: inverters
 		assign LEDG[i] = ~KEY[i];
 	end endgenerate
-	//assign {<<{LEDG}} = ~{<<{KEY}}; // bit streaming
 	
 	logic buttonLink, procClock;
 	ButtonSync BS(CLOCK_50, KEY[2], buttonLink);
@@ -33,7 +30,7 @@ module LabB(
 	assign selector[1] = SW[16];
 	assign selector[0] = SW[15];
 	Mux #(3,WIDTH) Mx(selector,
-		{PC_Out, State, NextState, ALU_A, ALU_B, ALU_Out},
+		{NextState, ALU_Out, ALU_B, ALU_A, {PC_Out, State}},
 		debugDisplay
 	);
 	

@@ -1,3 +1,5 @@
+`timescale 1 ps / 1 ps
+
 module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	input clk, reset,
 	output D_wr, RF_s, RF_W_en,
@@ -48,3 +50,44 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	assign PC_Out = ip;
 	
 endmodule
+
+
+module Controller_tb;
+	localparam WIDTH=16, D_ADDR_W=8, R_ADDR_W=4, I_ADDR_W=7;
+	
+	logic clk, reset;
+	logic D_wr, RF_s, RF_W_en;
+	
+	logic[D_ADDR_W-1:0] D_addr;
+	logic[R_ADDR_W-1:0] RF_W_addr, RF_A_addr, RF_B_addr;
+	logic[3:0] ALU_sel;
+	
+	logic[WIDTH-1:0] IR_Out;
+	logic[I_ADDR_W-1:0] PC_Out;
+	
+	
+	Controller #(WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) DUT(
+		clk, reset,
+		D_wr, RF_s, RF_W_en,
+	
+		D_addr,
+		RF_W_addr, RF_A_addr, RF_B_addr,
+		ALU_sel,
+	
+		IR_Out,
+		PC_Out
+	);
+	
+	
+	
+	initial begin
+		reset = 0;
+		
+		for(int i =0; i<40; i++) begin clk =0; #10; clk=1; #10; end
+		
+		
+	end
+endmodule
+
+
+
