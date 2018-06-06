@@ -22,15 +22,9 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	else if(ip_inc) ip++;
 	
 	// Instruction memory
-//	Mem #(WIDTH,I_ADDR_W) instructionMem(
-//		.clk(clk), .write(1'b0),
-//		.addr(ip), .dataWrite(16'b0), .dataRead(instMemOut)
-//	);
-	
-	instROM	instructionMem (
-		.address ( ip ),
-		.clock ( clk ),
-		.q ( instMemOut )
+	Mem #(WIDTH,I_ADDR_W) instructionMem(
+		.clk(clk), .write(1'b0),
+		.addr(ip), .dataWrite(16'b0), .dataRead(instMemOut)
 	);
 	
 	
