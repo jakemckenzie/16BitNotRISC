@@ -1,22 +1,26 @@
 # Create work library
 vlib work
 
+vlog "./DataPath.sv"
+vlog "./ALU.sv"
+vlog "./Mem.sv"
+vlog "./Multiplexer.sv"
 vlog "./Register_file.sv"
+vlog "./Mux.sv"
+vlog "./Adder.sv"
+vlog "./Shifter_barrel.sv"
 
 
-# Call vsim to invoke simulator
-#     Make sure the last item on the line is the name of the
-#     testbench module you want to execute.
-vsim -voptargs="+acc" -t 1ps -lib work Register_file_tb
+vsim -t 1ps -lib work DataPath_tb
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /Register_file_tb/*
+add wave -noupdate /DataPath_tb/*
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ps} 0}
 quietly wave cursor active 0
 configure wave -namecolwidth 200
-configure wave -valuecolwidth 300
+configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
