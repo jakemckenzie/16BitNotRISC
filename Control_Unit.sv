@@ -11,7 +11,7 @@ module Control_Unit(
     PC_CLR,PC_IC, IR_LD,
     D_ADDR,D_WR,
     RF_S,RF_A_ADDR,RF_B_ADDR,RF_W_EN,RF_W_ADDR,
-    ALU_S
+    ALU_S, state
 );
     input logic [15:0]IR;
     input logic Clock;
@@ -32,9 +32,12 @@ module Control_Unit(
     output logic [3:0]RF_W_ADDR;//Register file write address 
 
     output logic [3:0]ALU_S;    //ALU function select
+    output logic [4:0]state;
 
     //logic PC_UPDATE;
     logic [4:0]CurrentState;
+    
+    assign state = CurrentState;
 
 /***************************** OUR INTIAL STATES ******************************/
 
@@ -46,7 +49,7 @@ module Control_Unit(
                 CU_STORE    = 5'h5,     //stores registers into specified locations in memory
                 CU_ADD      = 5'h6,     //configures the ALU for addition
                 CU_SUB      = 5'h7,     //configures the ALU for subtraction
-            //    CU_JMP      = 5'h8,     //configures the ALU for jump
+          //    CU_JMP      = 5'h8,     //configures the ALU for jump
                 CU_HALT     = 5'h9,     //puts the CPU into a sleep mode
                 CU_NOOP     = 5'hA;     //Stall for one cycle and then goes again
 
@@ -58,8 +61,8 @@ always_ff @(posedge Clock) begin
     //CurrentState[4:0]   <= CU_INIT;
 
     PC_CLR              <= 1'h0;
-    IR_LD               <= 1'h0;
     PC_IC               <= 1'h0;
+    IR_LD               <= 1'h0;
     D_ADDR              <= 8'h0;
     D_WR                <= 1'h0;
     RF_S                <= 1'h0;
@@ -69,14 +72,14 @@ always_ff @(posedge Clock) begin
     RF_W_ADDR           <= 4'h0;
     ALU_S               <= 3'h0;
     if (!Reset) begin
-        case(CurrentState) 
+        case(CurrentState)
             CU_INIT: begin
                 PC_CLR          <= 1'h1;
                 CurrentState    <= CU_FETCH;
             end
             CU_FETCH: begin
                 IR_LD           <= 1'h1;
-                PC_IC           <= 1'h1;
+                //PC_IC           <= 1'h1;
                 CurrentState    <= CU_DECODE;
             end
             CU_DECODE: begin

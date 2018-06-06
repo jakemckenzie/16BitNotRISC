@@ -1,12 +1,12 @@
 module Processor(
-	Clk, Reset, IR_Out, PC_Out, State, NextState, ALU_A, ALU_B, ALU_Out
+	Clk, Reset, IR_Out, PC_Out, StateO, NextState, ALU_A, ALU_B, ALU_Out
 );
 	input Clk;              // processor clock
 	input Reset;            // system reset
 	output [15:0] IR_Out;   // Instruction register
 	output [6:0] PC_Out;    // Program counter
-	output [3:0] State;     // FSM current state
-	output [3:0] NextState; // FSM next state (or 0 if you don’t use one)
+	output [7:0] StateO;     // FSM current state
+	output [7:0] NextState; // FSM next state (or 0 if you don’t use one)
 	output [15:0] ALU_A;    // ALU A-Side Input
 	output [15:0] ALU_B;    // ALU B-Side Input
 	output [15:0] ALU_Out;  // ALU current output
@@ -27,7 +27,7 @@ module Processor(
 		.D_addr(D_addr),
 		.RF_W_addr(RF_W_addr), .RF_A_addr(RF_A_addr), .RF_B_addr(RF_B_addr),
 		.ALU_sel(ALU_sel),
-		.IR_Out(IR_Out), .PC_Out(PC_Out)
+		.IR_Out(IR_Out), .PC_Out(PC_Out), .State_Out(StateO)
 	);
 	
 	DataPath #(WIDTH, D_ADDR_W, R_ADDR_W) datapath(
@@ -41,7 +41,7 @@ module Processor(
 	// debugging output
 //	assign IR_Out    = controller.ir;
 //	assign PC_Out    = controller.ip;
-	assign State     = 0;
+	//assign StateO    = 0;
 	assign NextState = 0;
 //	assign ALU_A     = datapath.A;
 //	assign ALU_B     = datapath.B;
