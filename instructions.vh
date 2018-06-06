@@ -13,8 +13,9 @@
 
 
 // ALU Selectors
-`define  A_ADD 4'b0000
-`define  A_SUB 4'b0001
+`define  A_ADD  4'b0000
+`define  A_SUB  4'b0001
+`define  A_ZERO 4'b0010
 
 `define  A_AND  4'b0100
 `define  A_OR   4'b0101

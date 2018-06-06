@@ -72,6 +72,7 @@ module ALU #(parameter WIDTH)(
 		case(OpCode)
 		`A_AND :       Q  =   A & B ;
 		`A_OR  :       Q  =   A | B ;
+		`A_ZERO:       Q  = 0;
 		`A_XOR :       Q  =   A ^ B ;
 		`A_NAND:       Q  = ~(A & B);
 		`A_ADD : {Cout,Q} = add_out;
