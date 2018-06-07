@@ -26,7 +26,7 @@ module LabB(
 	logic[WIDTH-1:0] IR_Out, ALU_A, ALU_B, ALU_Out;
 	logic[7:0] State, NextState;
 	logic[6:0] PC_Out;
-	Processor proc(procClock, ~KEY[0], 
+	Processor proc(procClock, ~KEY[1], 
 		IR_Out, PC_Out, State, NextState, ALU_A, ALU_B, ALU_Out
 	);
 	
