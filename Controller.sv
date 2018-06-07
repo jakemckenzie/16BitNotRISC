@@ -17,7 +17,7 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	
 	output[WIDTH-1:0] IR_Out,
 	output[I_ADDR_W-1:0] PC_Out,
-	output[7:0] State_Out
+	output[7:0] State_Out, NextState_Out
 );
 	logic[WIDTH-1:0] currentInst, instMemOut;
 	logic ir_ld, ip_clr, ip_inc;
@@ -51,12 +51,14 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 		.D_WR(D_wr), .RF_S(RF_s), .RF_W_EN(RF_W_en),
 		.D_ADDR(D_addr),
 		.RF_A_ADDR(RF_A_addr), .RF_B_ADDR(RF_B_addr), .RF_W_ADDR(RF_W_addr),
-		.ALU_S(ALU_sel), .state(State_Out[4:0])
+		.ALU_S(ALU_sel),
+		.CurrentState_Out(State_Out[3:0]), .NextState_Out(NextState_Out[3:0])
 	);
 	
 	assign IR_Out = ir;
 	assign PC_Out = ip;
-	assign State_Out[7:5] =0;
+	assign State_Out    [7:4] =0;
+	assign NextState_Out[7:4] = 0;
 	
 endmodule
 
@@ -74,7 +76,7 @@ module Controller_tb;
 	
 	logic[WIDTH-1:0] IR_Out;
 	logic[I_ADDR_W-1:0] PC_Out;
-	logic[7:0] state;
+	logic[7:0] State_Out, NextState_Out;
 	
 	Controller #(WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) DUT(
 		clk, reset,
@@ -86,7 +88,7 @@ module Controller_tb;
 	
 		IR_Out,
 		PC_Out,
-		state
+		State_Out, NextState_Out
 	);
 	
 	logic ip_clr;
