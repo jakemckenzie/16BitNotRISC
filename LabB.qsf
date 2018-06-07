@@ -1111,7 +1111,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE ButtonSync.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Decoder_hex.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Shifter_barrel.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Controller.sv
-set_global_assignment -name SYSTEMVERILOG_FILE Mem.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Control_Unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE KeyFilter.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Multiplexer.sv

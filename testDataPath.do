@@ -1,4 +1,9 @@
 # Create work library
+if {[file exists gate_work]} {
+       vdel -lib gate_work -all
+}
+
+
 vlib work
 
 vlog "./DataPath.sv"

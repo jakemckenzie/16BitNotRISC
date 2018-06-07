@@ -56,82 +56,91 @@ module Control_Unit(
 /******************************************************************************/
 
 
-always_ff @(posedge Clock) begin
-    //Initialize all outputs to zero
-    //CurrentState[4:0]   <= CU_INIT;
+	always_ff @(posedge Clock) begin
+		if(Reset) CurrentState = CU_INIT;
+		else      CurrentState = nextState;
+	end
 
-    PC_CLR              <= 1'h0;
-    PC_IC               <= 1'h0;
-    IR_LD               <= 1'h0;
-    D_ADDR              <= 8'h0;
-    D_WR                <= 1'h0;
-    RF_S                <= 1'h0;
-    RF_W_EN             <= 1'h0;
-    RF_A_ADDR           <= 4'h0;
-    RF_B_ADDR           <= 4'h0;
-    RF_W_ADDR           <= 4'h0;
-    ALU_S               <= 3'h0;
-    if (!Reset) begin
-        case(CurrentState)
-            CU_INIT: begin
-                PC_CLR          <= 1'h1;
-                CurrentState    <= CU_FETCH;
-            end
-            CU_FETCH: begin
-                IR_LD           <= 1'h1;
-                //PC_IC           <= 1'h1;
-                CurrentState    <= CU_DECODE;
-            end
-            CU_DECODE: begin
-                PC_IC           <= 1'h1;
-                case(IR[15:12]) 
-                    `P_NOOP:    CurrentState <= CU_NOOP;
-                    `P_STORE:   CurrentState <= CU_STORE;
-                    `P_LOAD:    CurrentState <= CU_LOAD_A;
-                    `P_ADD:     CurrentState <= CU_ADD;
-                    `P_SUB:     CurrentState <= CU_SUB;
-                    `P_HALT:    CurrentState <= CU_HALT;
-               //     `P_JMP:     CurrentState <= CU_JMP;
-                    default:    CurrentState <= CU_INIT;
-                endcase
-            end
-            CU_LOAD_A: begin
-                D_ADDR          <= IR[11:4];
-                RF_S            <= 1'h1;
-                RF_W_ADDR       <= IR[3:0];
-                CurrentState    <= CU_LOAD_B;
-            end
-            CU_LOAD_B: begin
-                D_ADDR          <= IR[11:4];
-                RF_S            <= 1'h1;
-                RF_W_EN         <= 1'h1;
-                RF_W_ADDR       <= IR[3:0];
-                CurrentState    <= CU_FETCH;
-            end
-            CU_STORE: begin
-                D_ADDR          <= IR[7:0];
-                D_WR            <= 1'h1;
-                RF_A_ADDR       <= IR[11:8];
-                CurrentState    <= CU_FETCH;
-            end
-            CU_ADD: begin
-                RF_A_ADDR       <= IR[11:8];
-                RF_B_ADDR       <= IR[7:4];
-                RF_W_ADDR       <= IR[3:0];
-                RF_W_EN         <= 1'h1;
-                ALU_S           <= 4'h1;
-                RF_S            <= 1'h0;
-                CurrentState    <= CU_FETCH;
-            end
-            CU_SUB: begin
-                RF_A_ADDR       <= IR[11:8];
-                RF_B_ADDR       <= IR[7:4];
-                RF_W_ADDR       <= IR[3:0];
-                RF_W_EN         <= 1'h1;
-                ALU_S           <= 4'h2;
-                RF_S            <= 1'h0;
-                CurrentState    <= CU_FETCH;
-            end
+
+	always @(CurrentState, IR) begin
+		//Initialize all outputs to zero
+		//CurrentState[4:0]   <= CU_INIT;
+
+		// only reset the things that must be reset
+		PC_CLR              <= 1'h0;
+		PC_IC               <= 1'h0;
+		IR_LD               <= 1'h0;
+		D_WR                <= 1'h0;
+		RF_W_EN             <= 1'h0;
+		
+		// complains about latching
+		D_ADDR              <= 8'h0;
+		RF_S                <= 1'h0;
+		RF_A_ADDR           <= 4'h0;
+		RF_B_ADDR           <= 4'h0;
+		RF_W_ADDR           <= 4'h0;
+		ALU_S               <= 3'h0;
+		
+	    case(CurrentState)
+	        CU_INIT: begin
+	            PC_CLR          <= 1'h1;
+	            nextState    <= CU_FETCH;
+	        end
+	        CU_FETCH: begin
+	            IR_LD           <= 1'h1;
+	            //PC_IC           <= 1'h1;
+	            nextState    <= CU_DECODE;
+	        end
+	        CU_DECODE: begin
+	            PC_IC           <= 1'h1;
+	            case(IR[15:12]) 
+	                `P_NOOP:    nextState <= CU_NOOP;
+	                `P_STORE:   nextState <= CU_STORE;
+	                `P_LOAD:    nextState <= CU_LOAD_A;
+	                `P_ADD:     nextState <= CU_ADD;
+	                `P_SUB:     nextState <= CU_SUB;
+	                `P_HALT:    nextState <= CU_HALT;
+	           //     `P_JMP:     nextState <= CU_JMP;
+	                default:    nextState <= CU_INIT;
+	            endcase
+	        end
+	        CU_LOAD_A: begin
+	            D_ADDR          <= IR[11:4];
+	            RF_S            <= 1'h1;
+	            RF_W_ADDR       <= IR[3:0];
+	            nextState    <= CU_LOAD_B;
+	        end
+	        CU_LOAD_B: begin
+	            //D_ADDR          <= IR[11:4];
+	            //RF_S            <= 1'h1;
+	            RF_W_EN         <= 1'h1;
+	            //RF_W_ADDR       <= IR[3:0];
+	            nextState    <= CU_FETCH;
+	        end
+	        CU_STORE: begin
+	            D_ADDR          <= IR[7:0];
+	            RF_A_ADDR       <= IR[11:8];
+	            D_WR            <= 1'h1;
+	            nextState    <= CU_FETCH;
+	        end
+	        CU_ADD: begin
+	            RF_A_ADDR       <= IR[11:8];
+	            RF_B_ADDR       <= IR[7:4];
+	            RF_W_ADDR       <= IR[3:0];
+	            RF_W_EN         <= 1'h1;
+	            ALU_S           <= `A_ADD;
+	            RF_S            <= 1'h0;
+	            nextState    <= CU_FETCH;
+	        end
+	        CU_SUB: begin
+	            RF_A_ADDR       <= IR[11:8];
+	            RF_B_ADDR       <= IR[7:4];
+	            RF_W_ADDR       <= IR[3:0];
+	            RF_W_EN         <= 1'h1;
+	            ALU_S           <= `A_SUB;
+	            RF_S            <= 1'h0;
+	            nextState    <= CU_FETCH;
+	        end
 //            CU_JMP: begin
 //                RF_A_ADDR       <= IR[11:8];
 //                RF_B_ADDR       <= IR[7:4];
@@ -140,117 +149,114 @@ always_ff @(posedge Clock) begin
 //                ALU_S           <= 4'h3;
 //                RF_S            <= 1'h0;
 //            end
-            // CU_AND: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h3;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_OR: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h4;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_XOR: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h5;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_NAND: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h6;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_SHL: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h7;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_SHR: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h8;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_ROL: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'h9;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            // CU_ROR: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'hA;
-            //     RF_S <= 1'h0;
-            //     CurrentState <= CU_FETCH;
-            // end
-            
-            // CU_BEQ: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'hB;
-            //     RF_S <= 1'h0;
-            // end
-            // CU_BNE: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'hC;
-            //     RF_S <= 1'h0;
-            // end
-            // CU_BLT: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'hD;
-            //     RF_S <= 1'h0;
-            // end
-            // CU_BGE: begin
-            //     RF_A_ADDR <= IR[11:8];
-            //     RF_B_ADDR <= IR[7:4];
-            //     RF_W_ADDR <= IR[3:0];
-            //     RF_W_EN <= 1'h1;
-            //     ALU_S <= 4'hE;
-            //     RF_S <= 1'h0;
-            // end
-            CU_NOOP: CurrentState <= CU_FETCH;
-            CU_HALT: CurrentState <= CU_HALT;
-            default: CurrentState <= CU_INIT;
-        endcase
-    end else CurrentState <= CU_INIT;
-end                
-
-
+	        // CU_AND: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h3;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_OR: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h4;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_XOR: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h5;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_NAND: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h6;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_SHL: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h7;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_SHR: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h8;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_ROL: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'h9;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        // CU_ROR: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'hA;
+	        //     RF_S <= 1'h0;
+	        //     nextState <= CU_FETCH;
+	        // end
+	        
+	        // CU_BEQ: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'hB;
+	        //     RF_S <= 1'h0;
+	        // end
+	        // CU_BNE: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'hC;
+	        //     RF_S <= 1'h0;
+	        // end
+	        // CU_BLT: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'hD;
+	        //     RF_S <= 1'h0;
+	        // end
+	        // CU_BGE: begin
+	        //     RF_A_ADDR <= IR[11:8];
+	        //     RF_B_ADDR <= IR[7:4];
+	        //     RF_W_ADDR <= IR[3:0];
+	        //     RF_W_EN <= 1'h1;
+	        //     ALU_S <= 4'hE;
+	        //     RF_S <= 1'h0;
+	        // end
+	        CU_NOOP: nextState <= CU_FETCH;
+	        CU_HALT: nextState <= CU_HALT;
+	        default: nextState <= CU_INIT;
+	    endcase
+	end
 endmodule
