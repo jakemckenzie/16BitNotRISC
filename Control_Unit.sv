@@ -63,8 +63,11 @@ module Control_Unit(
         else      CurrentState = nextState;
         
         
-        
-        
+        case(CurrentState)
+            CU_LOAD_A: D_ADDR       = IR[11:4];
+            CU_STORE : D_ADDR       = IR[7:0];
+            // else latch
+        endcase
     end
     
     
@@ -112,7 +115,7 @@ module Control_Unit(
                 endcase
             end
             CU_LOAD_A: begin
-                D_ADDR       = IR[11:4];
+                
                 nextState    = CU_LOAD_B;
                 //nextState    = CU_FETCH;
             end
@@ -123,7 +126,7 @@ module Control_Unit(
                 nextState    = CU_FETCH;
             end
             CU_STORE: begin
-                D_ADDR       = IR[7:0];
+                
                 RF_A_ADDR    = IR[11:8];
                 D_WR         = 1'h1;
                 nextState    = CU_FETCH;
