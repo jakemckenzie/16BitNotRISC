@@ -24,10 +24,10 @@ module LabB(
 	);
 	
 	logic[WIDTH-1:0] IR_Out, ALU_A, ALU_B, ALU_Out;
-	logic[7:0] State, NextState;
-	logic[6:0] PC_Out;
+	logic[7:0] State, NextState, PC_Out;
+	assign PC_Out[7] =0;
 	Processor proc(procClock, ~KEY[1], 
-		IR_Out, PC_Out, State, NextState, ALU_A, ALU_B, ALU_Out
+		IR_Out, PC_Out[6:0], State, NextState, ALU_A, ALU_B, ALU_Out
 	);
 	
 	logic[WIDTH-1:0] debugDisplay;
@@ -36,7 +36,7 @@ module LabB(
 	assign selector[1] = SW[16];
 	assign selector[0] = SW[15];
 	Mux #(3,WIDTH) Mx(selector,
-		{16'h0, 16'h0, 16'h0, { 9'h0,PC_Out}, {State, NextState}, ALU_A, ALU_B, ALU_Out},
+		{16'h0, 16'h0, 16'h0, {8'h0,NextState}, ALU_Out, ALU_B, ALU_A, {PC_Out,State}},
 		debugDisplay
 	);
 	
