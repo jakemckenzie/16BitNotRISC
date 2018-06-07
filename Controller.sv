@@ -4,6 +4,9 @@
  *
  *	reset is active high
  */
+
+`timescale 1 ps / 1 ps
+
 module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	input clk, reset,
 	output D_wr, RF_s, RF_W_en,
@@ -30,12 +33,17 @@ module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	else if(ip_inc) ip++;
 	
 	// Instruction memory
-	Mem #(WIDTH,I_ADDR_W) instructionMem(
-		.clk(clk), .write(1'b0),
-		.addr(ip), .dataWrite(16'b0), .dataRead(instMemOut)
+//	Mem #(WIDTH,I_ADDR_W) instructionMem(
+//		.clk(clk), .write(1'b0),
+//		.addr(ip), .dataWrite(16'b0), .dataRead(instMemOut)
+//	);
+	
+	
+	iROM instructionMem (
+		.address ( ip ),
+		.clock ( clk ),
+		.q ( instMemOut )
 	);
-	
-	
 	
 	Control_Unit c(
 		.IR(ir), .Clock(clk), .Reset(reset),
@@ -89,9 +97,9 @@ module Controller_tb;
 		
 		$monitor($time, ": %d", DUT.ip_clr);
 		
-		for(int i=0; i<2**I_ADDR_W; i++) DUT.instructionMem.mem[i] = i;
-		DUT.instructionMem.mem[1] = 16'h3000;
-		DUT.instructionMem.mem[2] = 16'h4000;
+//		for(int i=0; i<2**I_ADDR_W; i++) DUT.instructionMem.mem[i] = i;
+//		DUT.instructionMem.mem[1] = 16'h3000;
+//		DUT.instructionMem.mem[2] = 16'h4000;
 		
 		#10; clk=0; #10; clk=1;
 		reset =1;

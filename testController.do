@@ -3,9 +3,10 @@ vlib work
 
 vlog "./Controller.sv"
 vlog "./Control_Unit.sv"
-vlog "./Mem.sv"
+vlog "./iROM.v"
+#vlog "./Mem.sv"
 
-vsim -t 1ps -lib work Controller_tb
+vsim -t 1ps -L altera_mf_ver -lib work Controller_tb
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
