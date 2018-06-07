@@ -1,6 +1,9 @@
-/* Authors:			Ammon Dodson & Jake McKenzie
- * Date:		    Jun 6, 2018
- * Description:     Data path module
+/*	Authors:			Ammon Dodson & Jake McKenzie
+ *	Date:		    Jun 6, 2018
+ *	Description:     Data path module
+ *
+ *	RF_s 0: ALU, 1: Datamemory
+ *
  */
 
 
@@ -66,31 +69,77 @@ module DataPath_tb;
 	);
 	
 	initial begin
+		$monitor($time, ": %h %h, %h",
+			DUT.registers.regfile[0],
+			DUT.registers.regfile[1],
+			DUT.muxIn[0]
+		);
+		
+//		for(int i=0; i<256; i++) begin
+//			D_addr = i;
+//			
+//			clk =0; #10; clk=1; #10;
+//			$display("%h: %h", i, DUT.muxIn[0]);
+//		end
+		
 		D_addr =0;
 		D_wr   =0;
 		RF_W_addr = 0;
 		RF_A_addr = 0;
 		RF_B_addr = 0;
-		ALU_sel = `A_ZERO;
-		RF_s =0;
-		RF_W_en =1;
-		
-		
-		clk =0; #10; clk=1; #10;
-		
-		// zero out the registers
-		for(int i=0; i<2**R_ADDR_W; i++) begin
-			RF_W_addr = i;
-			clk =0; #10; clk=1; #10;
-		end
+		ALU_sel = `A_ADD;
+		RF_s =1;
 		RF_W_en =0;
 		
-		// zero out the memory
-		D_wr   =1;
-		for(int i=0; i<2**D_ADDR_W; i++) begin
-			D_addr = i;
-			clk =0; #10; clk=1; #10;
-		end
+		
+		// load
+		clk =0; #10; clk=1; #10;
+		D_addr = 8'h0B;
+		clk =0; #10; clk=1; #10;
+		RF_W_en =1;
+		clk =0; #10; clk=1; #10;
+		RF_W_en =0;
+		
+		// load
+		RF_W_addr = 1;
+		D_addr = 8'h1B;
+		clk =0; #10; clk=1; #10;
+		RF_W_en =1;
+		clk =0; #10; clk=1; #10;
+		RF_W_en =0;
+		
+		// subtract
+		RF_W_addr = 0;
+		RF_A_addr = 0;
+		RF_B_addr = 1;
+		ALU_sel = `A_SUB;
+		RF_s =0; // alu
+		clk =0; #10; clk=1; #10;
+		RF_W_en =1;
+		clk =0; #10; clk=1; #10;
+		RF_W_en =0;
+		
+		RF_A_addr = 0;
+		
+		D_addr = 8'hCD;
+		clk =0; #10; clk=1; #10;
+		D_wr =1;
+		clk =0; #10; clk=1; #10;
+		D_wr =0;
+		
+		// zero out the registers
+//		for(int i=0; i<2**R_ADDR_W; i++) begin
+//			RF_W_addr = i;
+//			clk =0; #10; clk=1; #10;
+//		end
+//		RF_W_en =0;
+//		
+//		// zero out the memory
+//		D_wr   =1;
+//		for(int i=0; i<2**D_ADDR_W; i++) begin
+//			D_addr = i;
+//			clk =0; #10; clk=1; #10;
+//		end
 		
 		
 		

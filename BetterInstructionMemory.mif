@@ -32,14 +32,14 @@ ADDRESS_RADIX=UNS;
 DATA_RADIX=HEX;
 
 CONTENT BEGIN
-	0           :   20B0;
-    1           :   21B1;
-    2           :   4010;
-    3           :   2060;
-    4           :   3010;
-    5           :   28A0;
-    6           :   4010;
-    7           :   10CD;
-    8           :   5000;
-	[9..127]    :   0;
+	0           :   20B0; -- load 0B into reg0
+    1           :   21B1; -- load 1B into reg1
+    2           :   4010; -- sub  reg0 - reg1 = reg0
+    3           :   2061; -- load 06 into reg1
+    4           :   3010; -- add  reg0 + reg1 = reg0
+    5           :   28A1; -- load 8A into reg1
+    6           :   4010; -- sub  reg0 - reg1 = reg0
+    7           :   10CD; -- store reg0 into CD
+    8           :   5000; -- halt
+	[9..127]    :   0;    -- noop
 END;

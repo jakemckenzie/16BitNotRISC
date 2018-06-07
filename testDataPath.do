@@ -16,7 +16,7 @@ vsim -t 1ps -L altera_mf_ver -lib work DataPath_tb
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /DataPath_tb/*
+add wave -noupdate -hex /DataPath_tb/*
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ps} 0}
 quietly wave cursor active 0
