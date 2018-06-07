@@ -1,10 +1,12 @@
 # Create work library
+if {[file exists work]} {
+	vdel -lib work -all
+}
 vlib work
 
 vlog "./Controller.sv"
 vlog "./Control_Unit.sv"
 vlog "./iROM.v"
-#vlog "./Mem.sv"
 
 vsim -t 1ps -L altera_mf_ver -lib work Controller_tb
 

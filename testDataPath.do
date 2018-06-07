@@ -1,20 +1,17 @@
 # Create work library
-if {[file exists gate_work]} {
-       vdel -lib gate_work -all
+if {[file exists work]} {
+	vdel -lib work -all
 }
-
-
 vlib work
 
 vlog "./DataPath.sv"
 vlog "./ALU.sv"
-#vlog "./Mem.sv"
 vlog "./Multiplexer.sv"
 vlog "./Register_file.sv"
 vlog "./Mux.sv"
 vlog "./Adder.sv"
 vlog "./Shifter_barrel.sv"
-vlog "dRAM.v"
+vlog "./dRAM.v"
 
 
 vsim -t 1ps -L altera_mf_ver -lib work DataPath_tb
