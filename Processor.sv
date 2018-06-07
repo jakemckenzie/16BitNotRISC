@@ -27,7 +27,8 @@ module Processor(
 		.D_addr(D_addr),
 		.RF_W_addr(RF_W_addr), .RF_A_addr(RF_A_addr), .RF_B_addr(RF_B_addr),
 		.ALU_sel(ALU_sel),
-		.IR_Out(IR_Out), .PC_Out(PC_Out), .State_Out(StateO)
+		.IR_Out(IR_Out), .PC_Out(PC_Out),
+		.State_Out(StateO), .NextState_Out(NextState)
 	);
 	
 	DataPath #(WIDTH, D_ADDR_W, R_ADDR_W) datapath(
@@ -38,12 +39,4 @@ module Processor(
 		.ALU_A(ALU_A), .ALU_B(ALU_B), .ALU_Out(ALU_Out)
 	);
 	
-	// debugging output
-//	assign IR_Out    = controller.ir;
-//	assign PC_Out    = controller.ip;
-	//assign StateO    = 0;
-	assign NextState = 0;
-//	assign ALU_A     = datapath.A;
-//	assign ALU_B     = datapath.B;
-//	assign ALU_Out   = datapath.muxIn[0];
 endmodule

@@ -22,7 +22,7 @@ module DataPath #(parameter WIDTH, D_ADDR_W, R_ADDR_W) (
 	
 	//Mem #(WIDTH, D_ADDR_W) mem(clk, D_wr, D_addr, A, muxIn[0]);
 	
-	dRAM	dRAM_inst (
+	dRAM	dataMem (
 		.address ( D_addr ),
 		.clock ( clk ),
 		.data ( A ),
