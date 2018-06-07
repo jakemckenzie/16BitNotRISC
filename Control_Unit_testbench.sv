@@ -1,3 +1,7 @@
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Control Unit testbench
+ */
 module Control_Unit_testbench();
     logic [15:0]IR;
     logic Clock;

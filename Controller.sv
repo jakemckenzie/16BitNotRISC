@@ -1,7 +1,9 @@
-/*
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Controller module
+ *
  *	reset is active high
  */
-
 module Controller  #(parameter WIDTH, D_ADDR_W, I_ADDR_W, R_ADDR_W) (
 	input clk, reset,
 	output D_wr, RF_s, RF_W_en,

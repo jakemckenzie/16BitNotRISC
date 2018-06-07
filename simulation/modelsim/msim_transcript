@@ -1,0 +1,198 @@
+# Reading C:/intelFPGA_lite/17.0/modelsim_ase/tcl/vsim/pref.tcl
+# do LabB_run_msim_gate_systemverilog.do
+# if {[file exists gate_work]} {
+# 	vdel -lib gate_work -all
+# }
+# vlib gate_work
+# vmap work gate_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work gate_work 
+# Copying C:/intelFPGA_lite/17.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -sv -work work +incdir+. {LabB_7_1200mv_85c_slow.svo}
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:58:44 on Jun 05,2018
+# vlog -reportprogress 300 -sv -work work "+incdir+." LabB_7_1200mv_85c_slow.svo 
+# -- Compiling module LabB
+# 
+# Top level modules:
+# 	LabB
+# End time: 19:58:44 on Jun 05,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+dir
+#  Volume in drive C is Windows7_OS
+#  Volume Serial Number is E0B4-F39E
+# 
+#  Directory of C:\Users\Epimetheus\Documents\GitHub\16BitNotRISC\simulation\modelsim
+# 
+# 06/05/2018  07:58 PM    <DIR>          .
+# 06/05/2018  07:58 PM    <DIR>          ..
+# 06/01/2018  05:55 PM             1,469 BetterInstructionMemory.mif
+# 06/05/2018  07:58 PM    <DIR>          gate_work
+# 06/05/2018  07:48 PM               347 LabB.sft
+# 06/05/2018  07:48 PM         1,003,612 LabB.svo
+# 06/05/2018  07:48 PM         1,003,629 LabB_7_1200mv_0c_slow.svo
+# 06/05/2018  07:48 PM           507,521 LabB_7_1200mv_0c_v_slow.sdo
+# 06/05/2018  07:48 PM         1,003,630 LabB_7_1200mv_85c_slow.svo
+# 06/05/2018  07:48 PM           508,776 LabB_7_1200mv_85c_v_slow.sdo
+# 06/05/2018  07:48 PM         1,003,631 LabB_min_1200mv_0c_fast.svo
+# 06/05/2018  07:48 PM           498,767 LabB_min_1200mv_0c_v_fast.sdo
+# 06/05/2018  07:48 PM           183,264 LabB_modelsim.xrf
+# 06/05/2018  07:58 PM               178 LabB_run_msim_gate_systemverilog.do
+# 06/05/2018  07:58 PM               178 LabB_run_msim_gate_systemverilog.do.bak
+# 06/05/2018  07:57 PM             2,415 LabB_run_msim_rtl_verilog.do
+# 06/05/2018  07:48 PM           508,776 LabB_v.sdo
+# 06/05/2018  07:58 PM            11,132 modelsim.ini
+# 06/05/2018  07:58 PM               888 msim_transcript
+# 06/05/2018  07:57 PM    <DIR>          rtl_work
+#               16 File(s)      6,238,213 bytes
+#                4 Dir(s)  26,130,972,672 bytes free
+do testController.do
+# Cannot open macro file: testController.do
+cd ..
+# reading C:/intelFPGA_lite/17.0/modelsim_ase/win32aloem/../modelsim.ini
+dir
+#  Volume in drive C is Windows7_OS
+#  Volume Serial Number is E0B4-F39E
+# 
+#  Directory of C:\Users\Epimetheus\Documents\GitHub\16BitNotRISC\simulation
+# 
+# 06/05/2018  07:05 PM    <DIR>          .
+# 06/05/2018  07:05 PM    <DIR>          ..
+# 06/05/2018  07:58 PM    <DIR>          modelsim
+#                0 File(s)              0 bytes
+#                3 Dir(s)  26,117,533,696 bytes free
+cd ..
+dir
+#  Volume in drive C is Windows7_OS
+#  Volume Serial Number is E0B4-F39E
+# 
+#  Directory of C:\Users\Epimetheus\Documents\GitHub\16BitNotRISC
+# 
+# 06/05/2018  07:57 PM    <DIR>          .
+# 06/05/2018  07:57 PM    <DIR>          ..
+# 06/05/2018  08:54 PM    <DIR>          .git
+# 06/05/2018  07:03 PM               185 .gitignore
+# 06/05/2018  07:02 PM             2,151 Adder.sv
+# 06/01/2018  01:55 PM             4,016 ALU.sv
+# 06/01/2018  05:55 PM             1,469 BetterInstructionMemory.mif
+# 05/31/2018  12:33 PM             1,556 ButtonSync.sv
+# 06/05/2018  07:03 PM             1,878 Controller.sv
+# 05/31/2018  12:33 PM             9,603 Control_Unit.sv
+# 06/05/2018  07:02 PM             1,400 Control_Unit_testbench.sv
+# 06/05/2018  07:02 PM               938 DataPath.sv
+# 06/05/2018  07:58 PM    <DIR>          db
+# 06/05/2018  07:02 PM               714 Decoder_hex.sv
+# 05/30/2018  12:28 PM             1,093 Demultiplexer.sv
+# 06/05/2018  07:00 PM    <DIR>          incremental_db
+# 06/05/2018  07:03 PM               530 instROM.qip
+# 06/05/2018  07:03 PM             6,649 instROM.v
+# 06/01/2018  05:08 PM             1,736 InstructionMemory.mif
+# 06/01/2018  11:53 PM               689 instructions.vh
+# 05/31/2018  12:33 PM               880 KeyFilter.sv
+# 06/05/2018  07:03 PM             4,400 LabB.out.sdc
+# 05/31/2018  12:33 PM             1,325 LabB.qpf
+# 06/05/2018  07:46 PM            66,334 LabB.qsf
+# 06/05/2018  07:46 PM            10,924 LabB.qws
+# 06/05/2018  07:03 PM             1,346 LabB.sv
+# 06/05/2018  07:58 PM             1,036 LabB_nativelink_simulation.rpt
+# 05/28/2018  09:32 PM             1,078 LICENSE
+# 06/05/2018  07:02 PM               864 Mem.sv
+# 06/05/2018  07:03 PM             1,432 Memory.mif
+# 06/01/2018  05:08 PM               950 Multiplexer.sv
+# 05/29/2018  10:39 PM               800 Mux.sv
+# 06/05/2018  07:48 PM    <DIR>          output_files
+# 05/31/2018  12:33 PM             1,599 Processor.sv
+# 05/31/2018  12:33 PM             1,281 Register_file.sv
+# 06/05/2018  03:31 PM            85,980 Screenshot_2018-05-31_12-43-37.png
+# 05/29/2018  10:39 PM             1,467 Shifter_barrel.sv
+# 06/05/2018  07:05 PM    <DIR>          simulation
+# 05/31/2018  12:33 PM               803 testAdder.do
+# 05/29/2018  10:39 PM             1,045 testALU.do
+# 06/05/2018  07:03 PM               874 testController.do
+# 05/30/2018  05:06 PM               676 testControl_Unit.do
+# 05/29/2018  12:30 AM               643 testDemultiplexer.do
+# 05/31/2018  12:33 PM               796 testMem.do
+# 05/29/2018  10:39 PM               637 testMultiplexer.do
+# 05/31/2018  12:33 PM               982 testProcessor.do
+# 05/31/2018  12:33 PM             1,173 testProcessor.sv
+# 05/31/2018  12:33 PM               964 testRegister.do
+# 05/29/2018  10:39 PM             1,050 testShifter.do
+# 05/31/2018  12:30 PM            49,152 vsim.wlf
+# 05/30/2018  04:38 PM               659 wave_Control_Unit.do
+# 05/29/2018  12:30 AM               658 wave_Demultiplexer.do
+# 05/28/2018  11:41 PM               656 wave_Multiplexer.do
+# 06/05/2018  07:45 PM    <DIR>          work
+#               46 File(s)        277,071 bytes
+#                8 Dir(s)  26,117,922,816 bytes free
+do testController.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 20:54:39 on Jun 05,2018
+# vlog -reportprogress 300 ./Controller.sv 
+# -- Compiling module Controller
+# -- Compiling module Controller_tb
+# 
+# Top level modules:
+# 	Controller_tb
+# End time: 20:54:40 on Jun 05,2018, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 20:54:40 on Jun 05,2018
+# vlog -reportprogress 300 ./Control_Unit.sv 
+# -- Compiling module Control_Unit
+# 
+# Top level modules:
+# 	Control_Unit
+# End time: 20:54:40 on Jun 05,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 20:54:40 on Jun 05,2018
+# vlog -reportprogress 300 ./instROM.v 
+# -- Compiling module instROM
+# 
+# Top level modules:
+# 	instROM
+# End time: 20:54:40 on Jun 05,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -voptargs=""+acc"" -t 1ps -lib work -L altera_mf Controller_tb 
+# Start time: 20:54:40 on Jun 05,2018
+# Loading sv_std.std
+# Loading work.Controller_tb
+# Loading work.Controller
+# Loading work.instROM
+# Loading work.Control_Unit
+# ** Error (suppressible): (vsim-10000) ./instROM.v(84): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.address_aclr_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(85): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.clock_enable_input_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(86): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.clock_enable_output_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(87): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.init_file.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(88): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.intended_device_family.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(89): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.lpm_hint.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(90): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.lpm_type.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(91): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.numwords_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(92): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.operation_mode.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(93): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.outdata_aclr_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(94): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.outdata_reg_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(95): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.widthad_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(96): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.width_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# ** Error (suppressible): (vsim-10000) ./instROM.v(97): Unresolved defparam reference to 'altsyncram_component' in altsyncram_component.width_byteena_a.
+#    Time: 0 ps  Iteration: 0  Instance: /Controller_tb/DUT/instructionMem File: ./instROM.v
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./testController.do PAUSED at line 9

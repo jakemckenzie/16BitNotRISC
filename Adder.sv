@@ -1,3 +1,7 @@
+/* Authors:			Ammon Dodson & Jake McKenzie
+ * Date:		    Jun 6, 2018
+ * Description:     Adder module to test for signed overflow
+ */
 module Adder #(WIDTH) (
 	input sub,
 	input[WIDTH-1:0] A, B,
