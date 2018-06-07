@@ -4,6 +4,7 @@ vlib work
 vlog "./ALU.sv"
 vlog "./Shifter_barrel.sv"
 vlog "./Mux.sv"
+vlog "./Adder.sv"
 
 # Call vsim to invoke simulator
 #     Make sure the last item on the line is the name of the

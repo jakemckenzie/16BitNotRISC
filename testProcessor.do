@@ -9,13 +9,20 @@ vlog "./Control_Unit.sv"
 vlog "./Mem.sv"
 vlog "./Multiplexer.sv"
 vlog "./Register_file.sv"
+vlog "./iROM.v"
+vlog "./dRAM.v"
+vlog "./ALU.sv"
+vlog "./Shifter_barrel.sv"
+vlog "./Mux.sv"
+vlog "./Adder.sv"
 
 
-vsim -voptargs="+acc" -t 1ps -lib work testProcessor
+
+vsim -t 1ps -L altera_mf_ver -lib work testProcessor
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /testProcessor/*
+add wave -noupdate -hex /testProcessor/*
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {0 ps} 0}
 quietly wave cursor active 0

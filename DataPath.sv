@@ -5,7 +5,7 @@
 
 
 `include "instructions.vh"
-
+`timescale 1 ps / 1 ps
 
 module DataPath #(parameter WIDTH, D_ADDR_W, R_ADDR_W) (
 	input[D_ADDR_W-1:0] D_addr,
@@ -17,8 +17,15 @@ module DataPath #(parameter WIDTH, D_ADDR_W, R_ADDR_W) (
 	logic[WIDTH-1:0] A, B, RF_W;
 	logic[WIDTH-1:0]muxIn[1:0];
 	
-	Mem #(WIDTH, D_ADDR_W) mem(clk, D_wr, D_addr, A, muxIn[0]);
+	//Mem #(WIDTH, D_ADDR_W) mem(clk, D_wr, D_addr, A, muxIn[0]);
 	
+	dRAM	dRAM_inst (
+		.address ( D_addr ),
+		.clock ( clk ),
+		.data ( A ),
+		.wren ( D_wr ),
+		.q ( muxIn[0] )
+	);
 	
 	Multiplexer #(WIDTH,1) RF_writeSelect(muxIn, RF_s, RF_W);
 	
@@ -42,7 +49,7 @@ endmodule
 
 
 module DataPath_tb;
-	localparam WIDTH = 4, D_ADDR_W = 5, R_ADDR_W = 2;
+	localparam WIDTH = 16, D_ADDR_W = 8, R_ADDR_W = 4;
 	
 	logic[D_ADDR_W-1:0] D_addr;
 	logic[R_ADDR_W-1:0] RF_W_addr, RF_A_addr, RF_B_addr;

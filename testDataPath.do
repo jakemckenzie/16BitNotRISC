@@ -3,15 +3,16 @@ vlib work
 
 vlog "./DataPath.sv"
 vlog "./ALU.sv"
-vlog "./Mem.sv"
+#vlog "./Mem.sv"
 vlog "./Multiplexer.sv"
 vlog "./Register_file.sv"
 vlog "./Mux.sv"
 vlog "./Adder.sv"
 vlog "./Shifter_barrel.sv"
+vlog "dRAM.v"
 
 
-vsim -t 1ps -lib work DataPath_tb
+vsim -t 1ps -L altera_mf_ver -lib work DataPath_tb
 
 onerror {resume}
 quietly WaveActivateNextPane {} 0
