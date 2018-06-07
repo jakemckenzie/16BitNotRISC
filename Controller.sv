@@ -108,7 +108,7 @@ module Controller_tb;
 		
 		
 		
-		for(int i=0; i<15; i++) begin #10; clk=0; #10; clk=1; end
+		for(int i=0; i<40; i++) begin #10; clk=0; #10; clk=1; end
 		
 		
 	end
